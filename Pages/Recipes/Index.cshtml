@@ -1,0 +1,102 @@
+@page
+@model Final_Saria159.Pages_Recipes.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>The Protein Database</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<div class="row">
+    <form class="d-flex" role="search" asp-page="./Index" method="get">
+        <div class="col-3">
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input class="form-control me-2" type="search" name="CurrentSearch" value="@Model.CurrentSearch" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @{
+                    //Alternate sort order
+                    var firstSort = "first_asc";
+                    if (Model.CurrentSort == "first_asc")
+                    {
+                        firstSort = "first_desc";
+                    }
+                }
+                <a asp-page="./Index" asp-route-CurrentSort="@firstSort" asp-route-PageNum="@Model.PageNum">@Html.DisplayNameFor(model => model.Recipe[0].RecipeName)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recipe[0].RecipeDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recipe[0].TotalCalories)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recipe[0].RecipeIngredients)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Recipe) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecipeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecipeDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalCalories)
+            </td>
+            <td>
+            @foreach (var Ingredient in item.RecipeIngredients!)
+            {
+                <p>@Ingredient.Ingredient.IngredientName (@Ingredient.Ingredient.IngredientCalorie Cals) x @Ingredient.Ingredient.IngredientQuantity</p> <br />
+                
+            }
+            @if (item.RecipeIngredients.Count == 0)
+            {
+                @:No Ingredient
+            }  
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.RecipeID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.RecipeID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.RecipeID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<hr />
+@{
+    // If we are on page 1, prevDisabled will be set to the "disabled" class
+    // otherwise, it will be empty. So our previous button will be enabled or disabled based on this logic
+    var prevDisabled = "";
+    var nextDisabled = "";
+    if (Model.PageNum <= 1)
+    {
+        prevDisabled = "disabled";
+    }
+    if (Model.PageNum >= Model.TotalPages)
+    {
+        nextDisabled = "disabled";
+    }
+}
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item @prevDisabled"><a class="page-link" asp-page="./Index" asp-route-PageNum="@(Model.PageNum - 1)">Previous</a></li>
+        <li class="page-item @nextDisabled"><a class="page-link" asp-page="./Index" asp-route-PageNum="@(Model.PageNum + 1)">Next</a></li>
+    </ul>
+</nav>

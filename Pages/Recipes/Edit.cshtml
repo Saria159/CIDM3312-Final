@@ -1,0 +1,74 @@
+@page
+@model Final_Saria159.Pages_Recipes.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Recipe</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Recipe.RecipeID" />
+            <div class="form-group">
+                <label asp-for="Recipe.RecipeName" class="control-label"></label>
+                <input asp-for="Recipe.RecipeName" class="form-control" />
+                <span asp-validation-for="Recipe.RecipeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Recipe.RecipeDesc" class="control-label"></label>
+                <input asp-for="Recipe.RecipeDesc" class="form-control" />
+                <span asp-validation-for="Recipe.RecipeDesc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Recipe.TotalCalories" class="control-label"></label>
+                <input asp-for="Recipe.TotalCalories" class="form-control" />
+                <span asp-validation-for="Recipe.TotalCalories" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <table>
+                        <tr>
+                        @{
+                            var check = "";
+                            int cnt = 0;
+                            foreach (var ingredient in Model.Ingredients)
+                            {
+                                if (cnt % 2 == 0)
+                                {
+                                    @:</tr><tr>
+                                }
+                                check = "";
+                                if (Model.Recipe.RecipeIngredients!.Any(sc => sc.IngredientID == ingredient.IngredientID))
+                                {
+                                    check = "checked";
+                                }
+                                <td>
+                                    <input class="form-check-input me-1" type="checkbox" name="selectedIngredients" id="@("check" + @ingredient.IngredientID)" value="@ingredient.IngredientID" @check>
+                                    <label class="form-check-label" for="@("check" + @ingredient.IngredientID)">@ingredient.IngredientName</label>
+                                </td>
+                                cnt++;
+                            }
+                            @:</tr>
+                        }
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
