@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Final-Saria159")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ed9fd4d99ba1298a991b9d176a79b06c4e780d87")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c6ade4fb089f4282e8db42f3e166bd6d8ac399c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Final-Saria159")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Final-Saria159")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
